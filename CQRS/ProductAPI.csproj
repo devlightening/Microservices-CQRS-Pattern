@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediatR_CQRS\Commands\Requests\" />
+    <Folder Include="MediatR_CQRS\Commands\Responses\" />
+    <Folder Include="MediatR_CQRS\Handlers\CommandHandlers\" />
+    <Folder Include="MediatR_CQRS\Handlers\QueryHandlers\" />
+    <Folder Include="MediatR_CQRS\Queries\Requests\" />
+    <Folder Include="MediatR_CQRS\Queries\Responses\" />
+  </ItemGroup>
+
+</Project>
