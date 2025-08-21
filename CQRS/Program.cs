@@ -1,5 +1,6 @@
 using ProductAPI.Manuel_CQRS.Handlers.CommandHandlers;
 using ProductAPI.Manuel_CQRS.Handlers.QueryHandlers;
+using ProductAPI.Models.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.AddSingleton<CreateProductCommandHandler>()
 #endregion
 
 
+
+#region --MediatR_CQRS--
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationDbContext).Assembly));
+
+#endregion
 
 
 builder.Services.AddEndpointsApiExplorer();

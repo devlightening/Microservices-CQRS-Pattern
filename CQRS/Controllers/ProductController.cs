@@ -9,11 +9,14 @@ namespace ProductAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    #region "Manuel_CQRS"
+
     public class ProductController(
-        CreateProductCommandHandler createProductCommandHandler,
-        DeleteProductCommandHandler deleteProductCommandHandler,
-        GetAllProductQueryHandler getAllProductQueryHandler,
-        GetByIdProductQueryHandler getByIdProductQueryHandler) : ControllerBase
+    CreateProductCommandHandler createProductCommandHandler,
+    DeleteProductCommandHandler deleteProductCommandHandler,
+    GetAllProductQueryHandler getAllProductQueryHandler,
+    GetByIdProductQueryHandler getByIdProductQueryHandler) : ControllerBase
     {
         [HttpGet]
         public IActionResult GetAllProducts([FromQuery] GetAllProductQueryRequest request)
@@ -32,4 +35,10 @@ namespace ProductAPI.Controllers
         public IActionResult DeleteProduct([FromQuery] DeleteProductCommandRequest request)
              => Ok(deleteProductCommandHandler.DeleteProduct(request));
     }
+    #endregion
+
+    [Route("api/[controller]")]
+    [ApiController]
+
+    public class ProductController(MediatR mediatR)
 }
