@@ -1,44 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ProductAPI.Manuel_CQRS.Commands.Requests;
-using ProductAPI.Manuel_CQRS.Handlers.CommandHandlers;
-using ProductAPI.Manuel_CQRS.Handlers.QueryHandlers;
-using ProductAPI.Manuel_CQRS.Queries.Requests;
+using ProductAPI.MediatR_CQRS.Commands.Requests;
+using ProductAPI.MediatR_CQRS.Queries.Requests;
 
 namespace ProductAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    #region Manual CQRS
+    //public class ProductsController(CreateProductCommandHandler createProductCommandHandler, DeleteProductCommandHandler deleteProductCommandHandler, GetAllProductQueryHandler getAllProductQueryHandler, GetByIdProductQueryHandler getByIdProductQueryHandler) : ControllerBase
+    //{
+    //    [HttpGet]
+    //    public IActionResult Get([FromQuery] GetAllProductQueryRequest request)
+    //        => Ok(getAllProductQueryHandler.GetAllProduct(request));
 
-    #region "Manuel_CQRS"
+    //    [HttpGet("{ProductId}")]
+    //    public IActionResult Get([FromRoute] GetByIdProductQueryRequest request)
+    //        => Ok(getByIdProductQueryHandler.GetByIdProduct(request));
 
-    public class ProductController(
-    CreateProductCommandHandler createProductCommandHandler,
-    DeleteProductCommandHandler deleteProductCommandHandler,
-    GetAllProductQueryHandler getAllProductQueryHandler,
-    GetByIdProductQueryHandler getByIdProductQueryHandler) : ControllerBase
+    //    [HttpPost]
+    //    public IActionResult Post([FromBody] CreateProductCommandRequest request)
+    //        => Ok(createProductCommandHandler.CreateProduct(request));
+
+    //    [HttpDelete("{ProductId}")]
+    //    public IActionResult Delete([FromRoute] DeleteProductCommandRequest request)
+    //        => Ok(deleteProductCommandHandler.DeleteProduct(request));
+    //} 
+    #endregion
+    #region MediatR CQRS
+    public class ProductsController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetAllProducts([FromQuery] GetAllProductQueryRequest request)
-            => Ok(getAllProductQueryHandler.GetAllProduct(request));
+        public IActionResult Get([FromQuery] GetAllProductQueryRequest request)
+            => Ok(mediator.Send(request));
 
-
-        [HttpGet("{productId}")]
-        public IActionResult GetProductById([FromQuery] GetByIdProductQueryRequest request)
-            => Ok(getByIdProductQueryHandler.GetByIdProduct(request));
+        [HttpGet("{ProductId}")]
+        public IActionResult Get([FromRoute] GetByIdProductQueryRequest request)
+            => Ok(mediator.Send(request));
 
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] CreateProductCommandRequest request)
-             => Ok(createProductCommandHandler.CreateProduct(request));
+        public IActionResult Post([FromBody] CreateProductCommandRequest request)
+            => Ok(mediator.Send(request));
 
-        [HttpDelete("{productId}")]
-        public IActionResult DeleteProduct([FromQuery] DeleteProductCommandRequest request)
-             => Ok(deleteProductCommandHandler.DeleteProduct(request));
+        [HttpDelete("{ProductId}")]
+        public IActionResult Delete([FromRoute] DeleteProductCommandRequest request)
+            => Ok(mediator.Send(request));
     }
     #endregion
-
-    [Route("api/[controller]")]
-    [ApiController]
-
-    public class ProductController(MediatR mediatR)
 }

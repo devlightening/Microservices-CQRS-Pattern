@@ -7,27 +7,17 @@ namespace ProductAPI.MediatR_CQRS.Handlers.QueryHandlers
 {
     public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
     {
-
-
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            var product = ApplicationDbContext.ProductList.FirstOrDefault(x => x.ProductId == request.ProductId);
-            if (product != null)
+            var product = ApplicationDbContext.ProductList.FirstOrDefault(p => p.ProductId == request.ProductId);
+            return new GetByIdProductQueryResponse
             {
-                return new GetByIdProductQueryResponse
-                {
-                    ProductId = product.ProductId,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    CreatedDate = product.CreatedDate,
-                    Quantity = product.Quantity
-                };
-            }
-            else
-            {
-                return null; // or throw an exception, depending on your error handling strategy
-            }
+                ProductId = product.ProductId,
+                CreatedDate = product.CreatedDate,
+                Name = product.Name,
+                Price = product.Price,
+                Quantity = product.Quantity,
+            };
         }
     }
 }

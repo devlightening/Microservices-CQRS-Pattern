@@ -7,16 +7,16 @@ namespace ProductAPI.MediatR_CQRS.Handlers.QueryHandlers
 {
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, List<GetAllProductQueryResponse>>
     {
-        public async Task<List<GetAllProductQueryResponse>> IRequestHandler<GetAllProductQueryRequest, List<GetAllProductQueryResponse>>.Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
+        public async Task<List<GetAllProductQueryResponse>> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
-            return ApplicationDbContext.ProductList.Select(x => new GetAllProductQueryResponse
+            return ApplicationDbContext.ProductList.Select(p => new GetAllProductQueryResponse
             {
-                ProductId = x.ProductId,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                CreatedDate = x.CreatedDate,
-                Quantity = x.Quantity
+                ProductId = p.ProductId ,
+                CreatedDate = p.CreatedDate,
+                Description = p.Description,
+                Name = p.Name,
+                Price = p.Price,
+                Quantity = p.Quantity,
             }).ToList();
         }
     }
